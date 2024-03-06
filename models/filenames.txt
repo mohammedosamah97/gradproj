@@ -1,0 +1,10 @@
+arcface.cpython-310.pyc
+arcface.py
+filenames
+filenames.txt
+model.cpython-310.pyc
+model.py
+model.txt
+__init__.cpython-311.pyc
+__init__.py
+__pycache__
