@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> DeepFake Detection and Generation</title>
+  <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: Century Gothic;
+    }
+
+    header {
+      background-image: url("https://www.globalvillagespace.com/wp-content/uploads/2022/05/deep-fake-1068x561.jpg");
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      min-height: 100px;
+    }
+
+    ul {
+      float: right;
+      list-style-type: none;
+      margin-top: 30px;
+      margin-right: 60px;
+    }
+
+    ul li {
+      display: inline-block;
+    }
+
+    ul li a {
+      text-decoration: none;
+      color: #fff;
+      padding: 5px 20px;
+      border: 1px solid transparent;
+      transition: 0.5s ease;
+
+    }
+
+    ul li a:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    ul li.active a {
+      background-color: #fff;
+      color: #000;
+
+    }
+
+
+
+    .main {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .title {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 85px;
+    }
+
+    .button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .btn {
+      border: 1px solid #fff;
+      padding: 5px 20px;
+      color: #fff;
+      transition: 0.6s ease;
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .sub-menu {
+      display: none;
+      top: 6%;
+      position: relative;
+    }
+
+    .sub-menu ul {
+      position: absolute;
+
+    }
+
+    .main ul li:hover .sub-menu {
+      display: block;
+      position: absolute;
+      background-color: rgb(0, 45, 117);
+      margin-top: 12px;
+      margin-left: -8px;
+    }
+
+    .main ul li:hover .sub-menu ul {
+      display: block;
+      margin: 6px;
+
+    }
+
+    .main ul li:hover .sub-menu ul li {
+      width: 75px;
+      padding: 5px;
+      border-bottom: 1px#fff;
+      background: transparent;
+      transition: 0.4s ease;
+      text-align: left;
+      border-radius: 0;
+
+    }
+
+    .main ul li:hover .sub-menu ul li:last-child {
+      border-bottom: none;
+    }
+
+    .form {
+      color: #fff;
+    }
+
+    .label {
+      padding: 5px 20px;
+      color: #fff;
+      transition: 0.6s ease;
+      font-size: 18px;
+      text-decoration: none;
+      position: absolute;
+      bottom: 30%;
+      left: 42%;
+
+    }
+
+    .photos-list ul,
+    .videos-list ul {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .photos-list ul li,
+    .videos-list ul li {
+      list-style: none;
+      float: left;
+      width: 19%;
+      margin: 5px;
+      position: relative;
+    }
+
+    .photos-list ul li img,
+    .videos-list ul li img {
+      width: 100%;
+      border-radius: 10px;
+      height: 110px;
+    }
+
+    .photos-list ul li span,
+    .videos-list ul li span {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .5);
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .photos-list ul li span svg,
+    .videos-list ul li span svg {
+      color: #fff;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <header  style="display:flex;justify-content: center;align-items: center; flex-direction: column;">
+    
+
+    <div>
+      <h1>DeepFake</h1>
+
+    </div>
+    <div class="">
+      <a href="#" onclick="document.getElementById('chooseFile').click()" class="btn">UPLOAD VIDEO</a>
+      <a href="#" class="btn">DETECT</a>
+      <a href="#" class="btn">GENERATE</a>
+
+    </div>
+    <div class="">
+      <form>
+        <!-- <label for="url">Upload your URL:</label><br>
+        <input type="text" id="urltext" name="urltext"><br> -->
+        <input class="form-control url" placeholder="Paste YouTube Video URL" />
+        <button class="btn btn-success">Show Video</button>
+      </form>
+    </div>
+    <div class="">
+      <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data">
+        <input style="display:none" id="chooseFile" type="file" name="video">
+        <input type="submit" value="Upload">
+      </form>
+      <div id="videoPreview" style="display:none;">
+        <video width="320" height="240" controls>
+          <!-- /static/videos/{videoName} -->
+          <source src="" type="video/mp4">
+      </video>
+      </div>
+
+    </div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+  </header>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="custom.js" defer></script> -->
+  <div class="container">
+
+
+  </div>
+
+</body>
+
+</html>
